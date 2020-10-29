@@ -46,32 +46,7 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    async onSubmit(values) {
-      let res = await AjaxPass({
-        mobile: this.mobile,
-        password: this.password,
-        sms_code: this.sms_code,
-        type: this.type
-      });
-      // 修改密码
-      console.log("submit", values);
-      console.log(res);
-      if (res.code == 200) {
-        this.$toast.success("修改成功");
-        this.$router.push("/login");
-      }
-    },
-    // 验证码
-    async editPass() {
-      let res = await AjaxSmsLogin({
-        mobile: this.mobile,
-        sms_type: this.sms_type
-      });
-      if (res.code == 200) {
-        this.$toast.success("发送成功");
-      }
-      console.log(res);
-    }
+    
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在

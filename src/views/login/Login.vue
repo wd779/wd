@@ -45,22 +45,7 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    // 登录
-    async onSubmit(values) {
-      let res = await AjaxLogin({
-        mobile: this.mobile,
-        password: this.password,
-        type: this.type
-      });
-      if (res.code == 200) {
-        sessionStorage.setItem("token", res.data.remember_token);
-        this.$toast.success("登录成功");
-        this.$router.push("/mine");
-        localStorage.setItem("loginArr", JSON.stringify(res));
-      }
-      console.log("submit", values);
-      console.log(res);
-    }
+    
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在

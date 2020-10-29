@@ -48,33 +48,7 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    // 登录
-    async onSubmit(values) {
-      let res = await AjaxLogin({
-        mobile: this.mobile,
-        sms_code: this.sms_code,
-        client: this.client,
-        type: this.type
-      });
-      if (res.code == 200) {
-        sessionStorage.setItem("token", res.data.remember_token);
-        this.$toast.success("登录成功");
-        this.$router.push("/mine");
-      }
-      console.log("submit", values);
-      console.log(res);
-    },
-    // 验证码
-    async sms() {
-      let res = await AjaxSmsLogin({
-        mobile: this.mobile,
-        sms_type: "login"
-      });
-      if (res.code == 200) {
-        this.$toast.success("发送成功");
-      }
-      console.log(res);
-    }
+
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
