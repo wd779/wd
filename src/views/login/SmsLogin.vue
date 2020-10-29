@@ -3,21 +3,27 @@
     <!-- 注册/验证码登录页面 -->
     <!-- logo -->
     <div class="logo">
-      <img src="../../assets/2019pILfAg7Avr1567732916.png" alt />
+      <img src="../../assets/2019pILfAg7Avr1567732916.png" />
     </div>
     <!-- 验证码登录 -->
     <van-form @submit="onSubmit">
       <div class="yan">
-        <van-field v-model="mobile" name="用户名" label placeholder="请输入手机号" />
-        <span @click="sms">获取验证码</span>
+        <van-field v-model="mobile" name="用户名" placeholder="请输入手机号" />
+        <span @click="sms" ref="sp">获取验证码</span>
       </div>
-      <van-field v-model="sms_code" name="验证码" label placeholder="请输入短信验证码" />
+      <van-field
+        v-model="sms_code"
+        name="验证码"
+        placeholder="请输入短信验证码"
+      />
       <div class="pass">
-        <span style="color: #b7b7b7;">*未注册的手机号将自动注册</span>
-        <span style="color: #999;" @click="$router.push('/login')">使用密码登录</span>
+        <span style="color: #b7b7b7">*未注册的手机号将自动注册</span>
+        <span style="color: #999" @click="$router.push('/Login')"
+          >使用密码登录</span
+        >
       </div>
-      <div style="margin: 0.3rem;">
-        <van-button round block type="warning" native-type="submit">登录</van-button>
+      <div style="margin: 0.3rem">
+        <van-button round block type="warning">登录</van-button>
       </div>
     </van-form>
   </div>
@@ -37,9 +43,7 @@ export default {
     return {
       mobile: "",
       sms_code: "",
-      type: 2,
-      sms_type: "",
-      client: 1
+      num: 60,
     };
   },
   // 计算属性
@@ -48,13 +52,65 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-
+    async onSubmit() {
+      if (this.mobile == "" || this.sms_code == "") {
+        this.$toast({
+          message: "手机号或验证码不能为空",
+          position: "bottom",
+        });
+        return false;
+      }
+      var res = await AjaxLogin({
+        mobile: this.mobile,
+        sms_code: this.sms_code,
+        client:1,
+        type: 2,
+      });
+      // console.log(res);
+      if (res.code == 201) {
+        this.$toast({
+          message: res.msg,
+          position: "bottom",
+        });
+      }
+      if (res.code == 200) {
+        // localStorage.setItem("user", JSON.stringify());
+        // this.$router.push({ path: "/" });
+        // 验证是否为首次登录
+        console.log();
+        if ((JSON.parse(localStorage.getItem("user"))).is_new == 2) {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.$router.push({ path: "/" });
+        } else if ((JSON.parse(localStorage.getItem("user"))).is_new == 1){
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.$router.push({ path: "/SetPass" });
+        }
+      }
+    },
+    async sms() {
+      if (this.$refs.sp.innerHTML == "获取验证码") {
+        var res = await AjaxSmsLogin({
+          mobile: this.mobile,
+          sms_type: "login",
+        });
+        let interval = window.setInterval(() => {
+          if (this.num < 0) {
+            // console.log("111");
+            this.$refs.sp.innerHTML = "获取验证码";
+            window.clearInterval(interval);
+          } else {
+            this.$refs.sp.innerHTML = this.num--;
+          }
+        }, 1000);
+        this.num = 60
+      }
+    },
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
    */
   created() {},
-  mounted() {}
+  mounted() {},
 };
 </script> 
 

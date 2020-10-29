@@ -8,15 +8,24 @@
     <!-- 登录 -->
     <van-form @submit="onSubmit">
       <!-- 用户名 -->
-      <van-field v-model="mobile" name="用户名" label placeholder="请输入手机号" />
+      <van-field
+        v-model="from.mobile"
+        name="用户名"
+        placeholder="请输入手机号"
+      />
       <!-- 密码  -->
-      <van-field v-model="password" type="password" name="密码" label placeholder="请输入密码" />
+      <van-field
+        v-model="from.password"
+        type="password"
+        name="密码"
+        placeholder="请输入密码"
+      />
       <div class="pass">
-        <span @click="$router.push('/forgetPass')">找回密码</span>
-        <span @click="$router.push('/smsLogin')">注册/验证码登录</span>
+        <span @click="$router.push('/ForgetPass')">找回密码</span>
+        <span @click="$router.push('/SmsLogin')">注册/验证码登录</span>
       </div>
       <div>
-        <van-button round block type="warning" native-type="submit">登录</van-button>
+        <van-button round block type="warning">登录</van-button>
       </div>
     </van-form>
   </div>
@@ -34,9 +43,11 @@ export default {
   // 组件状态值
   data() {
     return {
-      mobile: "",
-      password: "",
-      type: 1,
+      from: {
+        mobile: "",
+        password: "",
+      },
+      type: "",
     };
   },
   // 计算属性
@@ -45,13 +56,45 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    
+    async onSubmit() {
+      if (this.from.mobile == "" || this.from.password == "") {
+        this.$toast({
+          message: "手机号或验证码不能为空",
+          position: "bottom",
+        });
+        return false;
+      }
+      var res = await AjaxLogin({
+        mobile: this.from.mobile,
+        password: this.from.password,
+        type: 1,
+      });
+
+      if (res.code == 201) {
+        this.$toast({
+          message: res.msg,
+          position: "bottom",
+        });
+      }
+      if (res.code == 200) {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        this.$router.push({ path: "/" });
+        // 验证是否为首次登录
+        // if (localStorage.getItem("user")) {
+        //   localStorage.setItem("user", JSON.stringify(res.data));
+        //   this.$router.push({ path: "/" });
+        // } else {
+        //   localStorage.setItem("user", JSON.stringify(res.data));
+        //   this.$router.push({ path: "/SetPass" });
+        // }
+      }
+    },
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
    */
   created() {},
-  mounted() {}
+  mounted() {},
 };
 </script> 
 

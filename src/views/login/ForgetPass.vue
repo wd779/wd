@@ -16,7 +16,7 @@
       <van-field v-model="sms_code" name="验证码" label placeholder="请输入验证码" />
       <van-field v-model="password" name="密码" label placeholder="请输入密码" />
       <div style="margin: 0.3rem;">
-        <van-button round block type="warning" native-type="submit">确定</van-button>
+        <van-button round block type="warning">确定</van-button>
       </div>
     </van-form>
   </div>
@@ -46,7 +46,12 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    
+    onSubmit(){
+      console.log("提交");
+    },
+    editPass(){
+      console.log("验证码");
+    }
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在

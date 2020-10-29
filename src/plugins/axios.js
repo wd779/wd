@@ -1,11 +1,10 @@
-"use strict";
 
 import axios from "axios";
 
 let config = {
-  baseURL: "http://120.53.31.103:84"
+  baseURL: "http://120.53.31.103:84",
   // baseURL: "https://wap.365msmk.com"
-  // timeout: 60 * 1000, // Timeout
+  timeout: 10 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
 
@@ -14,11 +13,11 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
   function (config) {
     // token请求头
-    config.headers.Authorization = sessionStorage.getItem("token")
+    config.headers.Authorization = localStorage.getItem("token")
     return config;
   },
   function (error) {
-    // Do something with request error
+    // 未响应
     return Promise.reject(error);
   }
 );
@@ -26,11 +25,11 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
-    // Do something with response data
+    // 响应成功
     return response;
   },
   function (error) {
-    // Do something with response error
+    // 响应失败
     return Promise.reject(error);
   }
 );
