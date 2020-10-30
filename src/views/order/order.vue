@@ -1,9 +1,5 @@
 <template>
   <div class="fyh_zhy">
-    <div class="header">
-      <h3>约课记录</h3>
-    </div>
-
     <!-- taba标签页 -->
     <div>
       <van-tabs v-model="active">
@@ -127,6 +123,5 @@ button {
   box-sizing: content-box;
   height: 100%;
   padding-bottom: 0.2rem;
-  padding-top: 12vw;
 }
 </style>

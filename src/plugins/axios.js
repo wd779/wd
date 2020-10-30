@@ -1,5 +1,5 @@
-
 import axios from "axios";
+import { Toast } from "vant";
 
 let config = {
   baseURL: "http://120.53.31.103:84",
@@ -11,12 +11,17 @@ let config = {
 const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
-  function (config) {
+  function(config) {
     // token请求头
-    config.headers.Authorization = localStorage.getItem("token")
+    config.headers.Authorization = localStorage.getItem("token");
+    Toast.loading({
+      duration: 0,
+      message: "加载中...",
+      forbidClick: true,
+    });
     return config;
   },
-  function (error) {
+  function(error) {
     // 未响应
     return Promise.reject(error);
   }
@@ -24,11 +29,13 @@ _axios.interceptors.request.use(
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-  function (response) {
+  function(response) {
     // 响应成功
+    
+    Toast.clear();
     return response;
   },
-  function (error) {
+  function(error) {
     // 响应失败
     return Promise.reject(error);
   }

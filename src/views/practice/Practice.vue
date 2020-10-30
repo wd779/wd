@@ -1,7 +1,5 @@
 <template>
   <div id="box">
-    <!-- 头部 -->
-    <h3>练习</h3>
     <!-- 五宫格 -->
     <div class="wu">
       <ul>
