@@ -76,13 +76,13 @@ export default {
       if (res.code == 200) {
         // localStorage.setItem("user", JSON.stringify());
         // this.$router.push({ path: "/" });
+        
+        // 存储登录信息
+        localStorage.setItem("user", JSON.stringify(res.data));
         // 验证是否为首次登录
-        console.log();
         if ((JSON.parse(localStorage.getItem("user"))).is_new == 2) {
-          localStorage.setItem("user", JSON.stringify(res.data));
           this.$router.push({ path: "/" });
         } else if ((JSON.parse(localStorage.getItem("user"))).is_new == 1){
-          localStorage.setItem("user", JSON.stringify(res.data));
           this.$router.push({ path: "/SetPass" });
         }
       }

@@ -10,8 +10,21 @@ const routes = [
     name: "Home",
     component: () => import("../views/Home.vue"),
     meta:{
+      isNavBar:false,
+      isTabBar:true,
+      title:"首页",
+    }
+  },
+  // 课程
+  {
+    path: "/Appointment",
+    name: "Appointment",
+    component: () => import("../views/Appointment.vue"),
+    meta:{
       isNavBar:true,
       isTabBar:true,
+      icon:"search",
+      title:"精品课程",
     }
   },
   // 密码登录
