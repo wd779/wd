@@ -12,9 +12,21 @@ const routes = [
     meta: {
       isNavBar: false,
       isTabBar: true,
-      title: "首页",
       pageTitle: "首页",
     },
+    children: [
+      // 课程详情,
+      {
+        path: "/Details",
+        name: "Details",
+        component: () => import("../views/Appointment/Details.vue"),
+        meta: {
+          pagetitle: "详情",
+          isNavBar: true,
+          isBack: true,
+        },
+      },
+    ],
   },
   // 课程
   {
@@ -30,8 +42,8 @@ const routes = [
       isBack: true,
     },
   },
-   // 我的
-   {
+  // 我的
+  {
     path: "/mine",
     name: "mine",
     component: () => import("../views/mine.vue"),
@@ -109,7 +121,6 @@ const routes = [
       pageTitle: "设置密码",
     },
   },
- 
 ];
 const router = new VueRouter({
   routes,

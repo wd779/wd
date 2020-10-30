@@ -1,24 +1,23 @@
 <template>
   <div id="app">
-    <div class="top">
+    <div class="top" v-if="isNavBar">
       <van-nav-bar
         :title="title"
-        v-show="isNavBar"
         @click-left="onClickLeft"
       >
       <template #left>
-          <van-icon name="arrow-left" v-show="isBack" size="18" />
+          <van-icon name="arrow-left" v-if="isBack" size="18" />
         </template>
         <template #right>
           <van-icon :name="icon" size="18" />
         </template>
       </van-nav-bar>
     </div>
-    <div class="center">
+    <div class="center" :style="styleSheet">
       <router-view></router-view>
     </div>
-    <div class="bottom">
-      <van-tabbar v-model="active" v-show="isTabBar" @change="changeRoute">
+    <div class="bottom" v-if="isTabBar">
+      <van-tabbar v-model="active"  @change="changeRoute">
         <van-tabbar-item v-for="(item, index) in icons" :key="index">
           <span>{{ item.title }}</span>
           <template #icon="props">
@@ -102,6 +101,19 @@ export default {
       let isBack = false;
       isBack = this.$route.meta.isBack;
       return isBack;
+    },
+    styleSheet(){
+      var styleSheet = {};
+      var num = 100
+      if (this.isNavBar == true) {
+        num = num - 8
+      }
+      if (this.isTabBar == true) {
+        num = num - 8
+      }
+      return {
+        height:`${num}vh`
+      }
     }
   },
   methods: {

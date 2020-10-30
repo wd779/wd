@@ -2,69 +2,98 @@
   <div class="home">
     <div class="con">
       <!-- 轮播图 -->
-      <Swiper :Swiper="Swiper"></Swiper>
-      <!-- 图标 -->
-      <IconBotton class="icon"></IconBotton>
+      <div>
+        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+          <van-swipe-item v-for="item in Swiper" :key="item.id">
+            <img :src="item.Swiper" style="width: 100%; height: 200px" />
+          </van-swipe-item>
+        </van-swipe>
+      </div>
     </div>
+
+    <!-- 图标 -->
+
     <!-- 名师阵容 -->
     <Title>名师阵容</Title>
-    <Teacher></Teacher>
+    <RenownedTeacher
+      v-for="(item, index) in RenowneList4"
+      :key="item.teacher_id"
+      :list="item"
+      v-show="index < 3"
+    ></RenownedTeacher>
     <!-- 精品课程 -->
     <Title>精品课程</Title>
-    <Crad v-for="item in RenowneList[1].list" :key="item.id"  :data="item"></Crad>
+    <Crad v-for="item in RenowneList1" :key="item.id" :data="item"></Crad>
     <!-- 明星讲师 -->
     <Title>明星讲师</Title>
-    <RenownedTeacher></RenownedTeacher>
+    <RenownedTeacher
+      v-for="item in RenowneList"
+      :key="item.teacher_id"
+      :list="item"
+    ></RenownedTeacher>
   </div>
 </template>
 
 <script>
-import Swiper from "../components/Swiper/Swiper"; //轮播图
-import IconBotton from "../components/iconBotton/iconBotton"; //按钮 图标
-import Teacher from "../components/Teacher/TeacherLineup"; //名师阵容
-import RenownedTeacher from "../components/Renownedteacher/renownedteacher"; //明星讲师
-import Crad from "../components/Card"; //精品课程
-import Title from "../components/Renownedteacher/Renowned_teacher_border"; //home页  分类标签组件
+//按钮 图标
 
-import { HomeList } from "../utils/myApi";
+//明星讲师
+import RenownedTeacher from "../components/Renownedteacher/renownedteacher";
+//精品课程卡片
+import Crad from "../components/Card";
+//home页  分类标签组件
+import Title from "../components/Renownedteacher/Renowned_teacher_border";
+// 首页api接口
+import { GetHomeList } from "../utils/myApi";
 export default {
   name: "Home",
   components: {
-    Swiper,
-    IconBotton,
-    Teacher,
     RenownedTeacher,
     Crad,
     Title,
   },
-
+  mounted() {
+    this.onRenowneList();
+  },
   data() {
     return {
       Swiper: [
-        { Swiper: require("../assets/Swiper/20193KAjU2cB6h1569839562.jpg") },
-        { Swiper: require("../assets/Swiper/20197Cxc53hktC1569839552.jpg") },
-        { Swiper: require("../assets/Swiper/2019LnKumseuhw1569839569.jpg") },
-        { Swiper: require("../assets/Swiper/2019MGNW3BtiS91569839576.jpg") },
+        {
+          Swiper: require("../assets/Swiper/20193KAjU2cB6h1569839562.jpg"),
+          id: 1,
+        },
+        {
+          Swiper: require("../assets/Swiper/20197Cxc53hktC1569839552.jpg"),
+          id: 2,
+        },
+        {
+          Swiper: require("../assets/Swiper/2019LnKumseuhw1569839569.jpg"),
+          id: 3,
+        },
+        {
+          Swiper: require("../assets/Swiper/2019MGNW3BtiS91569839576.jpg"),
+          id: 4,
+        },
       ],
-      RenowneList:[]
+      RenowneList: "",
+      RenowneList1: "",
+      RenowneList4: "",
     };
   },
 
   methods: {
     async onRenowneList() {
-      let { data: res } = await HomeList();
-      console.log(res);
-      this.RenowneList = res;
-      // console.log(this.HomeLists);
+      var res = await GetHomeList();
+
+      this.RenowneList = res.data[0].list;
+      this.RenowneList1 = res.data[1].list;
+      this.RenowneList4 = res.data[4].list.slice(0,3);
+      console.log(this.RenowneList1);
     },
   },
-  
-  mounted(){
-    this.onRenowneList()
-  }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped >
 .home {
   height: 92vh;
   overflow: scroll;
@@ -73,6 +102,9 @@ export default {
   width: 100%;
   height: 2.8rem;
   position: relative;
+  img {
+    height: 100%;
+  }
 }
 .icon {
   width: 100%;

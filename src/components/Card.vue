@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .box_container {
   height: 1.5rem;
-  margin: 1vw;
+  margin: 0.05rem;
   width: 98vw;
   background: white;
   box-shadow: 3px 1px 5px #ccc;
@@ -53,7 +53,7 @@ export default {
   box-sizing: border-box;
 }
 .box_wrapper {
-  margin: 0.2rem;
+  margin: 0.08rem;
   h6 {
     font-size: 0.2rem;
     font-weight: normal;

@@ -43,7 +43,7 @@ export const GetDataList = data => get('api/app/courseBasis',data) // 课程列�
 export const GetCurriculum = data => get('api/app/courseInfo/basis_id='+data) // 课程单页数据
 export const Search = data => get('api/app/courseBasis',data) // 搜索课程
 
-export const HomeList = data => get('/api/app/recommend/appIndex',data) 
+export const GetHomeList = data => get('/api/app/recommend/appIndex',data) 
 
 // // // 我的页面
 // export const AjaxInfo = data => get('/api/app/userInfo',data) // 个人信息
