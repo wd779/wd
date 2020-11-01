@@ -54,7 +54,7 @@ export default {
   },
 
   mounted() {
-      if( sessionStorage.getItem("token") ){
+      if( localStorage.getItem("user") ){
             this.deng=true
       }else{
            this.deng=false

@@ -284,10 +284,11 @@ P {
 .nav {
   width: 100%;
   z-index: 1;
+    background: #FFFFFF;
 }
 .connect {
   z-index: 0;
-  height: 72vh;
+  height: 76vh;
   overflow: scroll;
   position: fixed;
   top: 1.1rem;

@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+  // =========================  首页相关  =======================================
   // 主页
   {
     path: "/",
@@ -14,20 +15,59 @@ const routes = [
       isTabBar: true,
       pageTitle: "首页",
     },
-    children: [
-      // 课程详情,
-      {
-        path: "/Details",
-        name: "Details",
-        component: () => import("../views/Appointment/Details.vue"),
-        meta: {
-          pagetitle: "详情",
-          isNavBar: true,
-          isBack: true,
-        },
-      },
-    ],
   },
+  // 课程详情,
+  {
+    path: "/Details",
+    name: "Details",
+    component: () => import("../views/Appointment/Details.vue"),
+    meta: {
+      pageTitle: "课程详情",
+      isNavBar: true,
+      title: "课程详情",
+      isBack: true,
+      icon: "share-o",
+    },
+  },
+  // 教师详情,
+  {
+    path: "/Teacher_Details",
+    name: "Teacher_Details",
+    component: () => import("../views/Home/Teacher_Details.vue"),
+    meta: {
+      pageTitle: "教师详情",
+      isNavBar: false,
+      title: "教师详情",
+      isBack: true,
+    },
+  },
+  // 学习界面,
+  {
+    path: "/Study",
+    name: "Study",
+    component: () => import("../views/Home/Study.vue"),
+    meta: {
+      pageTitle: "学习日历",
+      isNavBar: true,
+      isBack: true,
+      title: "学习日历",
+    },
+  },
+  // 辅导界面,
+  {
+    path: "/FuDao",
+    name: "FuDao",
+    component: () => import("../views/Home/FuDao.vue"),
+    meta: {
+      pageTitle: "一对一辅导",
+      isNavBar: true,
+      isBack: true,
+      title: "一对一辅导",
+      icon: "search",
+    },
+  },
+
+  // =====================      课程相关     ================================
   // 课程
   {
     path: "/Appointment",
@@ -39,9 +79,10 @@ const routes = [
       icon: "search",
       title: "精品课程",
       pageTitle: "课程",
-      isBack: true,
+      isBack: false,
     },
   },
+  // ==========================      我的相关      =================================
   // 我的
   {
     path: "/mine",
@@ -53,6 +94,14 @@ const routes = [
       pageTitle: "我的",
     },
   },
+  // 设置
+  {
+    path: "/options",
+    name: "Options",
+    component: () => import("../views/my/Options"),
+    meta: { title: "设置" },
+  }, 
+  // ===========================   约课相关    =====================================
   // 约课记录
   {
     path: "/order",
@@ -65,6 +114,7 @@ const routes = [
       pageTitle: "约课记录主页面",
     },
   },
+  // ==========================   练习相关   ======================================
   // 练习页面
   {
     path: "/practice",
@@ -77,6 +127,7 @@ const routes = [
       isTabBar: true,
     },
   },
+  // ===========================  登录相关  ======================================
   // 密码登录
   {
     path: "/Login",
@@ -128,7 +179,15 @@ const router = new VueRouter({
 // 路由导航守卫
 router.beforeEach((to, from, next) => {
   document.title = to.meta.pageTitle;
+  if (to.path == "/mine" || to.path == "/order") {
+    if (localStorage.getItem("user")) {
+      next();
+    } else {
+      next("/Login");
+    }
+  }
   next();
+
   // 判断本地存储中 token 是否存在 若存在 则不做操作
   // if (localStorage.getItem('token')) {
   //   next()

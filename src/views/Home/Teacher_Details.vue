@@ -5,7 +5,7 @@
       <div class="header">
         <header>
           <span class="back">
-            <img src="../../assets/下载.png" alt="" />
+            <img src="../../assets/下载.png" @click="$router.go(-1)" alt="" />
           </span>
           <h3>讲师详情</h3>
         </header>
@@ -153,7 +153,6 @@ export default {
   border-radius: 50%;
   flex: none;
 }
-
 .ti-base div {
   flex: 1;
 }

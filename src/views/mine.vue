@@ -6,13 +6,7 @@
         <!-- 登录 -->
         <div class="head">
           <section @click="$router.push('/info')">
-            <div v-show="flag">
-              <img :src="list.avatar"/>
-              <span>{{list.nickname}}</span>
-              <van-icon name="edit" />
-              <h4 @click="$router.push('/fudao')">去约课</h4>
-            </div>
-            <div v-show="!flag">
+            <div>
               <img :src="list.avatar">
               <span @click="$router.push('/login')">{{ username }}</span>
               <van-icon name="edit" />
@@ -130,7 +124,7 @@
 </template>
 
 <script>
-// import { AjaxMy } from "../utils/myApi";
+import { AjaxInfo } from "../utils/myApi";
 export default {
   // 组件名称
   name: "", // 组件参数 接收来自父组件的数据
@@ -143,29 +137,26 @@ export default {
       username:JSON.parse(localStorage.getItem("user")).nickname,
     };
   }, // 计算属性
+  mounted() {
+   this.getUserInfo();
+  },
   computed: {}, // 侦听器
   watch: {}, // 组件方法
   methods: {
-    
-  },
-  created() {},
-  mounted() {
-   this.list = JSON.parse( localStorage.getItem("loginArr"))
-   this.list = this.list.data
-   console.log(this.list);
-    if (sessionStorage.getItem("token")) {
-      this.flag = true;
-    } else {
-      this.flag = false;
+    async getUserInfo(){
+      let res = await AjaxInfo();
+      console.log(res);
+      this.list = res.data
     }
-  }
+  },
+  created() {}, 
+  
 };
 </script> 
 
 <style lang="scss" scoped >
 .box {
   width: 100%;
-  padding-bottom: 0.8rem;
 }
 .user_icon {
   width: 3.75rem;

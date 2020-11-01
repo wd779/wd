@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="Renowned_teacher_con" @click="TeacherDetails">
+    <div class="Renowned_teacher_con">
       <div class="Renowned_teacher_warpper">
         <div class="Renowned_teacher_content">
           <div class="Renowned_teacher_content_warpper">
@@ -43,12 +43,7 @@ export default {
     },
   },
   methods: {
-    // 点击跳转到  讲师详情
-    TeacherDetails() {
-      this.$router.push({
-        path: "/teacher_details",
-      });
-    },
+  
   },
 };
 </script>

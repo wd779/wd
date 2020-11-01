@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="学习日历" left-arrow @click-left="onClickLeft" />
+    <!-- <van-nav-bar title="学习日历" left-arrow @click-left="onClickLeft" /> -->
     <!-- <van-calendar
       :poppable="false"
       :show-confirm="false"

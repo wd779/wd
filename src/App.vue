@@ -161,12 +161,13 @@ body,
 }
 .top {
   height: 8vh;
+  background: #FFFFFF;
 }
 .center {
-  height: 84vh;
   overflow: scroll;
 }
 .bottom {
   height: 8vh;
+    background: #FFFFFF;
 }
 </style>

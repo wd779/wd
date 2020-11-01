@@ -14,7 +14,7 @@
           设置密码</li>
     </ul>
     <div class="bottom-box">
-      <div class="btn-exit">
+      <div class="btn-exit" @click="edit">
         退出登录
       </div>
     </div>
@@ -40,7 +40,12 @@ export default {
   // 侦听器
   watch: {},
   // 组件方法
-  methods: {},
+  methods: {
+    edit(){
+      localStorage.clear();
+      this.$router.push({path:"/"})
+    }
+  },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
    */

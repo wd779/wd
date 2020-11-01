@@ -61,9 +61,19 @@ export default {
       }
       var res = await AjaxPass({
         mobile: JSON.parse(localStorage.getItem("user")).mobile,
-        sms_type:"Password",
+        sms_code: JSON.parse(localStorage.getItem("sms")),
+        client:1,
+        sms_type:"getPassword",
         password: this.password,
       });
+      if (res.code == 200) {
+        this.$router.push({ path: "/" });
+      }else{
+        this.$toast({
+          message: res.msg,
+          position: "bottom",
+        });
+      }
       console.log(res);
     },
   },

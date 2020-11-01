@@ -9,7 +9,7 @@
     <van-form @submit="onSubmit">
       <div class="yan">
         <van-field v-model="mobile" name="用户名" placeholder="请输入手机号" />
-        <span @click="sms" ref="sp">获取验证码</span>
+        <span @click="sms">{{tex}}</span>
       </div>
       <van-field
         v-model="sms_code"
@@ -44,6 +44,7 @@ export default {
       mobile: "",
       sms_code: "",
       num: 60,
+      tex:"获取验证码"
     };
   },
   // 计算属性
@@ -78,6 +79,7 @@ export default {
         // this.$router.push({ path: "/" });
         
         // 存储登录信息
+        localStorage.setItem("sms", JSON.stringify(this.sms_code));
         localStorage.setItem("user", JSON.stringify(res.data));
         // 验证是否为首次登录
         if ((JSON.parse(localStorage.getItem("user"))).is_new == 2) {
@@ -88,7 +90,7 @@ export default {
       }
     },
     async sms() {
-      if (this.$refs.sp.innerHTML == "获取验证码") {
+      if (this.tex == "获取验证码") {
         var res = await AjaxSmsLogin({
           mobile: this.mobile,
           sms_type: "login",
@@ -96,10 +98,10 @@ export default {
         let interval = window.setInterval(() => {
           if (this.num < 0) {
             // console.log("111");
-            this.$refs.sp.innerHTML = "获取验证码";
+            this.tex = "获取验证码";
             window.clearInterval(interval);
           } else {
-            this.$refs.sp.innerHTML = this.num--;
+            this.tex = this.num--;
           }
         }, 1000);
         this.num = 60

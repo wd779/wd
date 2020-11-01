@@ -1,13 +1,17 @@
 <template>
   <div>
-    <van-nav-bar title="课程详情" left-arrow @click-left="onClickLeft">
+    <!-- <van-nav-bar title="课程详情" left-arrow @click-left="onClickLeft">
       <template #right>
         <van-icon name="share-o" size="18" />
       </template>
-    </van-nav-bar>
+    </van-nav-bar> -->
     <div class="info">
       <div class="top">
-        <p>{{ data.title }}</p>
+        <p>
+          <span>{{ data.title }}</span>
+          <van-icon class="top_right" name="star-o" @click="Collection" v-show="show==false" />
+          <van-icon class="top_right" name="star" @click="Collection" v-show="show==true" />
+        </p>
         <p>{{ data.price == 0 ? "免费" : "￥" + data.price }}</p>
         <p>共{{ data.total_periods }}课时 | {{ data.sales_num }}人已报名</p>
         <p>
@@ -60,6 +64,7 @@ export default {
   data() {
     return {
       data: "",
+      show:false
     };
   }, // 计算属性
   computed: {}, // 侦听器
@@ -69,10 +74,23 @@ export default {
       // console.log(this.$route.query);
       var a = await GetCurriculum(this.$route.query.con.id);
       this.data = a.data.info;
-      console.log(this.data);
+      // console.log(this.data);
     },
     onClickLeft() {
       this.$router.go(-1);
+    },
+    Collection(){
+       // 获取token   判断 登录状态
+      let str = localStorage.getItem("user");
+      console.log(str);
+      if (str == null) {
+         this.$router.push({
+          path: "/Login",
+        });
+      } else {
+       this.show = !this.show;
+      }
+      
     },
   },
   /**
@@ -93,6 +111,11 @@ export default {
   height: 84vh;
   overflow: scroll;
 }
+.top_right {
+  font-size: 0.24rem;
+  float: right;
+  color: #FC5500;
+}
 .btn {
   height: 8vh;
 }
@@ -110,11 +133,11 @@ export default {
   box-sizing: border-box;
 }
 .top p {
+  width: 100%;
   line-height: 0.33rem;
 }
 .top p:nth-child(1) {
   width: 100%;
-  display: flex;
 }
 .top p:nth-child(2) {
   color: #fc5500;
