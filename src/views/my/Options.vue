@@ -9,12 +9,12 @@
     </app-header>
     <!-- 设置密码 -->
     <ul>
-      <li >
+      <li @click="toForgetPass">
           <!-- ::before -->
           设置密码</li>
     </ul>
     <div class="bottom-box">
-      <div class="btn-exit" @click="edit">
+      <div class="btn-exit" @click="signOut">
         退出登录
       </div>
     </div>
@@ -41,9 +41,12 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    edit(){
+    signOut(){
       localStorage.clear();
       this.$router.push({path:"/"})
+    },
+    toForgetPass(){
+      this.$router.push({path:"/ForgetPass"})
     }
   },
   /**

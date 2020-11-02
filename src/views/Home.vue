@@ -308,6 +308,6 @@ ul li img {
 .botton_icon {
   position: fixed;
   right: 5px;
-  top: 0px;
+  top: 5px;
 }
 </style>

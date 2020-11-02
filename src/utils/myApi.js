@@ -50,4 +50,4 @@ export const AjaxEdit = data => axios.put('/api/app/user',data) // 修改用户�
 // 约课
 
 // 练习
-
+export const AjaxQues_collect = data => post("api/app/message/classifyMessage", data);// 习题收藏
