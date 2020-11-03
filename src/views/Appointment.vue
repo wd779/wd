@@ -284,7 +284,7 @@ P {
 .nav {
   width: 100%;
   z-index: 1;
-    background: #FFFFFF;
+  background: #FFFFFF;
 }
 .connect {
   z-index: 0;

@@ -23,7 +23,7 @@ const routes = [
     component: () => import("../views/Appointment/Details.vue"),
     meta: {
       pageTitle: "课程详情",
-      isNavBar: true,
+      isNavBar: false,
       title: "课程详情",
       isBack: true,
       icon: "share-o",

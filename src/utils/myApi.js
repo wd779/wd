@@ -58,11 +58,16 @@ export const CancelCollect = data => put('api/app/collect/cancel/'+data+'/1') //
 // 首页
 export const GetHomeList = data => get('/api/app/recommend/appIndex',data) //获取首页数据
 export const GetTeacherInfo = data => get('/api/app/teacher/'+data) //获取教师数据
+export const GetTeacherDetailed = data => get('/api/app/teacher/info/'+data) //获取教师详情数据
+export const collectTeacher = data => get('api/app/teacher/collect/'+data) //关注教师
+export const cancelCollectTeacher = collect_id => get(`api/app/teacher/collect/${collect_id}`); // 取消关注
+export const collectTeacherList = data => get("/api/app/collect", data); // 关注列表
+export const cancelCollect = collect_id => put(`api/app/collect/cancel/${collect_id}/2`); // 取消关注
 // 我的
 export const AjaxInfo = data => get("/api/app/userInfo", data); // 获取用户信息
 export const AjaxEdit = data => axios.put('/api/app/user',data) // 修改用户信息
-export const GetCollect = data => get('api/app/collect?page=1&limit=10&type=1',data) // 修改用户信息
-// api/app/collect?page=2&limit=10&type=1//我的收藏数据
+export const GetCollect = data => get('api/app/collect?page=1&limit=10&type=1',data) // 所有我的收藏数据
+// api/app/collect?page=2&limit=10&type=1//
 // 约课
 
 // 练习

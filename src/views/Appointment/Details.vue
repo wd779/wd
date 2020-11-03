@@ -1,10 +1,10 @@
 <template>
   <div>
-    <!-- <van-nav-bar title="课程详情" left-arrow @click-left="onClickLeft">
+    <van-nav-bar title="课程详情" left-arrow @click-left="onClickLeft">
       <template #right>
-        <van-icon name="share-o" size="18" />
+        <van-icon name="share-o" size="18" @click="share" />
       </template>
-    </van-nav-bar> -->
+    </van-nav-bar>
     <div class="info">
       <div class="top">
         <p>
@@ -61,11 +61,23 @@
     <div class="btn">
       <van-button type="default" class="btn_n">立即学习</van-button>
     </div>
+    <!-- 二维码 -->
+    <van-overlay :show="show" @click="show = false">
+      <div class="wrapper">
+        <div class="block">
+          <p>分享</p>
+          <div>
+            <img :src="imrUrl" />
+          </div>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
 import { GetCurriculum, Collect, CancelCollect } from "../../utils/myApi";
+import QRCode from "qrcode";
 export default {
   // 组件名称
   name: "", // 组件参数 接收来自父组件的数据
@@ -74,17 +86,33 @@ export default {
   data() {
     return {
       data: "",
-      show: false,
-      id:""
+      id: "",
+      show: false, //判断是否让遮罩层出现
+      imrUrl: "", // 图片的地址
     };
   }, // 计算属性
   computed: {
-    isshow(){
-      return this.data.is_collect
-    }
+    isshow() {
+      return this.data.is_collect;
+    },
   }, // 侦听器
   watch: {}, // 组件方法
   methods: {
+    share() {
+      console.log("分享");
+        this.show = true;
+      let url = location.href;
+      console.log(url);
+      QRCode.toDataURL(url)
+      //在这里拿到地址，把它赋值给data里面定义的值imrUrl
+        .then(tpian => {
+          console.log(tpian);
+          this.imrUrl = tpian;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
     async getdata() {
       // console.log(this.$route.query);
       var a = await GetCurriculum(this.$route.query.con.id);
@@ -156,6 +184,17 @@ export default {
 .info {
   height: 84vh;
   overflow: scroll;
+}
+.block{
+  width: 2rem;
+  height: 2.2rem;
+  background: white;
+  text-align: center;
+  border-radius: 5px;
+  position: fixed;
+  top: 2rem;
+  left: 0.95rem;
+  
 }
 .top_right {
   font-size: 0.24rem;

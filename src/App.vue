@@ -29,9 +29,13 @@
 </template>
 
 <script>
+// 小球拖拽
+import { me } from "./utils/meiqia";
 export default {
   name: "app",
-  components: {},
+  components: {
+
+  },
   // mounted(){
   //   // console.log(window.location.href);
   //   var res =  window.location.href.split("#")[1]

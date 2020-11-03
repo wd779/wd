@@ -25,7 +25,19 @@
               <font data-v-8a020ce2="">30年教龄</font>
             </p>
           </div>
-          <button data-v-8a020ce2="">关注</button>
+          <button 
+          @click="follow" 
+          class="follow" 
+          v-if="data.flag == 2">
+            关注
+          </button>
+          <button
+            @click="cancelFollow"
+            class="cancelFollow"
+            v-if="data.flag == 1"
+          >
+            已关注
+          </button>
         </div>
       </div>
 
@@ -38,11 +50,12 @@
                 <li><span>教学年龄</span><font>30年</font></li>
                 <li><span>授课价格</span><font>400学习币</font></li>
                 <li>
-                  <span>老师简介</span
-                  ><font
-                    >　杨老师,特级教师.多次被中国数学会评为全国高中数学竞联赛优秀教练员。长期从事名校理科班的数学教学和数学竞赛辅导工作。辅导学生参加全国高中数学联赛有数百人次获全国高中数学联赛一、二、三等奖，数十人被免试保送到清华大学、北京大学等名牌大学学习。十多人获CMO获一、二、三等奖，一人获IMO金牌。
-                    　　特别是近年来大学试行自主招生，有很多同学通过上他的竞赛辅导课进入清华大学、北京大学、上海交通大学等。</font
-                  >
+                  <span>老师简介</span>
+                  <font
+                    >　
+                    杨老师,特级教师.多次被中国数学会评为全国高中数学竞联赛优秀教练员。长期从事名校理科班的数学教学和数学竞赛辅导工作。辅导学生参加全国高中数学联赛有数百人次获全国高中数学联赛一、二、三等奖，数十人被免试保送到清华大学、北京大学等名牌大学学习。十多人获CMO获一、二、三等奖，一人获IMO金牌。
+                    　　特别是近年来大学试行自主招生，有很多同学通过上他的竞赛辅导课进入清华大学、北京大学、上海交通大学等。
+                  </font>
                 </li>
               </ul>
             </van-tab>
@@ -59,33 +72,65 @@
         class="course-btn van-button van-button--default van-button--normal"
         @click="subscribe"
       >
-        <span class="van-button__text" >立即预约</span>
+        <span class="van-button__text">立即预约</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import { GetTeacherInfo } from "../../utils/myApi";
+import {
+  GetTeacherInfo,
+  GetTeacherDetailed,
+  collectTeacher,
+  cancelCollectTeacher,
+} from "../../utils/myApi";
 export default {
   data() {
     return {
       activeName: "a",
       info: {},
+      data: "",
+      id:"",
     };
   },
   mounted() {
-    console.log(this.$route.query.ID);
+    // console.log(this.$route.query.ID);
     this.GetInfo();
+    this.getDetailed();
   },
   methods: {
     async GetInfo() {
       let res = await GetTeacherInfo(this.$route.query.ID);
       this.info = res.data.teacher;
-      // console.log(this.info);
+      this.data = res.data;
+      if (this.data == 1) {
+        this.id = this.data.teacher.id
+      }
+      // console.log(this.data);
     },
-    subscribe(){
-      this.$router.push({path:"/yuyue"})
+    async getDetailed() {
+      let res1 = await GetTeacherDetailed(this.$route.query.ID);
+      // console.log(res1);
+    },
+    subscribe() {
+      this.$router.push({ path: "/yuyue" });
+    },
+    async follow() {
+      // console.log("去关注");
+      let res = await collectTeacher(this.$route.query.ID);
+      // console.log(res);
+      if (res.code == 200) {
+        this.GetInfo();
+      }
+    },
+    async cancelFollow() {
+      // console.log("取消关注");
+      let res = await cancelCollectTeacher(this.$route.query.ID);
+      // console.log(res);
+      if (res.code == 200) {
+        this.GetInfo();
+      }
     },
   },
 };
@@ -97,6 +142,9 @@ export default {
   height: 4vm;
 }
 
+.cancelFollow {
+  color: #666;
+}
 .teacher-page {
   min-height: 100vh;
   background: #f0f2f5;

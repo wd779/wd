@@ -9,7 +9,6 @@
           {{ datas.teachers_list[0].teacher_name }}
         </span>
       </div>
-
       <p>
         {{datas.sales_num}}人已报名
         <b :class="datas.price==0?'':'red'">{{ datas.price==0?'免费':"￥"+datas.price }}</b>
@@ -55,7 +54,7 @@ export default {
 .box_wrapper {
   margin: 0.08rem;
   h6 {
-    font-size: 0.2rem;
+    font-size: 0.1rem;
     font-weight: normal;
     height: 0.2rem;
     padding-top: 0.1rem;
