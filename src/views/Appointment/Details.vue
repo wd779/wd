@@ -75,6 +75,7 @@ export default {
     return {
       data: "",
       show: false,
+      id:""
     };
   }, // 计算属性
   computed: {
@@ -88,6 +89,10 @@ export default {
       // console.log(this.$route.query);
       var a = await GetCurriculum(this.$route.query.con.id);
       this.data = a.data.info;
+      if (a.data.info.is_collect == 1) {
+        // console.log(a.data.info.collect_id);
+        this.id = a.data.info.collect_id;
+      }
       // console.log(this.data);
     },
 
@@ -115,6 +120,7 @@ export default {
         }
       }
     },
+    // 取消选中
     async CancelCollection() {
       // 获取token   判断 登录状态
       let str = localStorage.getItem("user");
@@ -125,10 +131,10 @@ export default {
         });
       } else {
         // console.log(this.$route.query.con.id);
-        var b = await CancelCollect({collect_id:this.$route.query.con.id});
+        var b = await CancelCollect(this.id);
         if (b.code == 200) {
           this.getdata();
-          // console.log("取消选中");
+          // console.log("");
           // this.$router.push({ path: "/Details", query: { con: this.$route.query.con} })
         }
       }

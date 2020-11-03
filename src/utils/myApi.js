@@ -33,6 +33,17 @@ export function post(url, data) {
             })
     });
 }
+export function put(url) {
+    return new Promise((resolve, reject) => {
+        axios.put(url)
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(err => {
+                reject(err.data)
+            })
+    });
+}
 // 登录
 export const AjaxLogin = data => post('/api/app/login',data) // 1密码登录 2验证码登录
 export const AjaxSmsLogin = data => post('/api/app/smsCode',data) // 验证码
@@ -43,7 +54,7 @@ export const GetDataList = data => get('api/app/courseBasis',data) // 课程列�
 export const GetCurriculum = data => get('api/app/courseInfo/basis_id='+data) // 课程详情
 export const Search = data => get('api/app/courseBasis',data) // 搜索课程
 export const Collect = data => post('/api/app/collect',data) // 收藏课程
-export const CancelCollect = data => post('api/app/collect/cancel/227/1',data) // 取消收藏课程
+export const CancelCollect = data => put('api/app/collect/cancel/'+data+'/1') // 取消收藏课程
 // 首页
 export const GetHomeList = data => get('/api/app/recommend/appIndex',data) //获取首页数据
 export const GetTeacherInfo = data => get('/api/app/teacher/'+data) //获取教师数据
