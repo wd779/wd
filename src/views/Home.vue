@@ -47,32 +47,39 @@
     </div>
 
     <!-- 图标 -->
-
-    <!-- 名师阵容 -->
-    <Title>名师阵容</Title>
-    <div
-      v-for="item in RenowneList4"
-      :key="item.teacher_id"
-      @click="TeacherDetails"
-    >
-      <RenownedTeacher :list="item"></RenownedTeacher>
-    </div>
-
+    <template v-if="data1 == 3">
+      <!-- 名师阵容 -->
+      <Title>名师阵容</Title>
+      <div
+        v-for="item in RenowneList4"
+        :key="item.teacher_id"
+        @click="TeacherDetails(item.teacher_id)"
+      >
+        <RenownedTeacher :list="item"></RenownedTeacher>
+      </div>
+    </template>
     <!-- 精品课程 -->
-    <Title>精品课程</Title>
-    <div v-for="item in RenowneList1" :key="item.id" @click="toDetails(item)">
-      <Crad :data="item"></Crad>
-    </div>
+    <template v-if="data2 == 1">
+      <Title>精品课程</Title>
+      <div v-for="item in RenowneList1" :key="item.id" @click="toDetails(item)">
+        <Crad :data="item"></Crad>
+      </div>
+    </template>
+<!-- 明星讲师 -->
+    <template v-if="data3 == 3">
+      <Title>明星讲师</Title>
+      <div
+        v-for="item in RenowneList"
+        :key="item.teacher_id"
+        @click="TeacherDetails(item.teacher_id)"
+      >
+        <RenownedTeacher :list="item"></RenownedTeacher>
+      </div>
+    </template>
+  </div>
+</template>
 
-    <!-- 明星讲师 -->
-    <Title>明星讲师</Title>
-    <div
-      v-for="item in RenowneList"
-      :key="item.teacher_id"
-      @click="TeacherDetails"
-    >
-      <RenownedTeacher :list="item"></RenownedTeacher>
-    </div>
+    
   </div>
 </template>
 
@@ -121,16 +128,23 @@ export default {
       RenowneList: "",
       RenowneList1: "",
       RenowneList4: "",
+      data1:"",
+      data2:"",
+      data3:"",
     };
   },
 
   methods: {
     async onRenowneList() {
       var res = await GetHomeList();
-
+     
       this.RenowneList = res.data[0].list;
       this.RenowneList1 = res.data[1].list;
       this.RenowneList4 = res.data[4].list.slice(0, 3);
+      this.data1 = res.data[0].channel_info.type;
+      this.data2 = res.data[1].channel_info.type;
+      this.data3 = res.data[4].channel_info.type;
+      //  console.log(res.data);
       // console.log(this.RenowneList1);
     },
     // 点击进入 课程
@@ -166,11 +180,11 @@ export default {
     },
     // 跳转课程详情
     toDetails(item) {
-      console.log(item.id);
-      this.$router.push({ name: "Details", query: { con: item } });
+      // console.log(item.id);
+      this.$router.push({ path: "/Details", query: { con: item } });
     },
     // 点击跳转到  讲师详情
-    TeacherDetails() {
+    TeacherDetails(id) {
       // 获取token   判断 登录状态
       let str = localStorage.getItem("user");
       // console.log(str);
@@ -179,6 +193,9 @@ export default {
       } else {
         this.$router.push({
           path: "/teacher_details",
+          query: {
+            ID: id,
+          },
         });
       }
     },
@@ -235,10 +252,10 @@ ul li {
   border-radius: 8px 8px 8px 8px;
 }
 ul li img {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   align-items: center;
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
 }
 .imgs {
   width: 100%;

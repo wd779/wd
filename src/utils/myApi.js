@@ -42,11 +42,16 @@ export const GetData = data => get('api/app/courseClassify',data) // 课程信�
 export const GetDataList = data => get('api/app/courseBasis',data) // 课程列表
 export const GetCurriculum = data => get('api/app/courseInfo/basis_id='+data) // 课程详情
 export const Search = data => get('api/app/courseBasis',data) // 搜索课程
+export const Collect = data => post('/api/app/collect',data) // 收藏课程
+export const CancelCollect = data => post('api/app/collect/cancel/227/1',data) // 取消收藏课程
 // 首页
 export const GetHomeList = data => get('/api/app/recommend/appIndex',data) //获取首页数据
+export const GetTeacherInfo = data => get('/api/app/teacher/'+data) //获取教师数据
 // 我的
 export const AjaxInfo = data => get("/api/app/userInfo", data); // 获取用户信息
 export const AjaxEdit = data => axios.put('/api/app/user',data) // 修改用户信息
+export const GetCollect = data => get('api/app/collect?page=1&limit=10&type=1',data) // 修改用户信息
+// api/app/collect?page=2&limit=10&type=1//我的收藏数据
 // 约课
 
 // 练习

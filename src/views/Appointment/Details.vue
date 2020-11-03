@@ -9,8 +9,18 @@
       <div class="top">
         <p>
           <span>{{ data.title }}</span>
-          <van-icon class="top_right" name="star-o" @click="Collection" v-show="show==false" />
-          <van-icon class="top_right" name="star" @click="Collection" v-show="show==true" />
+          <van-icon
+            class="top_right"
+            name="star-o"
+            @click="Collection"
+            v-show="isshow == 0 ? true : false"
+          />
+          <van-icon
+            class="top_right"
+            name="star"
+            @click="CancelCollection"
+            v-show="isshow == 1 ? true : false"
+          />
         </p>
         <p>{{ data.price == 0 ? "免费" : "￥" + data.price }}</p>
         <p>共{{ data.total_periods }}课时 | {{ data.sales_num }}人已报名</p>
@@ -55,7 +65,7 @@
 </template>
 
 <script>
-import { GetCurriculum } from "../../utils/myApi";
+import { GetCurriculum, Collect, CancelCollect } from "../../utils/myApi";
 export default {
   // 组件名称
   name: "", // 组件参数 接收来自父组件的数据
@@ -64,10 +74,14 @@ export default {
   data() {
     return {
       data: "",
-      show:false
+      show: false,
     };
   }, // 计算属性
-  computed: {}, // 侦听器
+  computed: {
+    isshow(){
+      return this.data.is_collect
+    }
+  }, // 侦听器
   watch: {}, // 组件方法
   methods: {
     async getdata() {
@@ -76,28 +90,54 @@ export default {
       this.data = a.data.info;
       // console.log(this.data);
     },
+
     onClickLeft() {
       this.$router.go(-1);
     },
-    Collection(){
-       // 获取token   判断 登录状态
+    async Collection() {
+      // 获取token   判断 登录状态
       let str = localStorage.getItem("user");
-      console.log(str);
       if (str == null) {
-         this.$router.push({
+        this.$router.push({
           path: "/Login",
         });
       } else {
-       this.show = !this.show;
+        var b = await Collect({
+          course_basis_id: this.$route.query.con.id,
+          type: 1,
+        });
+        // console.log(b);
+
+        if (b.code == 200) {
+          this.getdata();
+          // console.log("选中");
+          // this.$router.push({ path: "/Details", query: { con: this.$route.query.con} })
+        }
       }
-      
+    },
+    async CancelCollection() {
+      // 获取token   判断 登录状态
+      let str = localStorage.getItem("user");
+      // console.log(str);
+      if (str == null) {
+        this.$router.push({
+          path: "/Login",
+        });
+      } else {
+        // console.log(this.$route.query.con.id);
+        var b = await CancelCollect({collect_id:this.$route.query.con.id});
+        if (b.code == 200) {
+          this.getdata();
+          // console.log("取消选中");
+          // this.$router.push({ path: "/Details", query: { con: this.$route.query.con} })
+        }
+      }
     },
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
    */ created() {},
   mounted() {
-    new Date();
     this.getdata();
     // this.GetCurriculum().then(res=>{
     //     console.log(res);
@@ -114,7 +154,7 @@ export default {
 .top_right {
   font-size: 0.24rem;
   float: right;
-  color: #FC5500;
+  color: #fc5500;
 }
 .btn {
   height: 8vh;

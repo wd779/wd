@@ -149,6 +149,7 @@ const routes = [
   { path: "/assess", name: "assess", component: () => import("../views/practice/assess.vue"), meta: { pageTitle: '测评记录' } }, // 测评记录-zhy
   { path: "/ques_collect", name: "ques_collect", component: () => import("../views/practice/ques_collect.vue"), meta: { pageTitle: '习题收藏' } },// 习题收藏-zhy
   { path: "/shu", name: "shu", component: () => import("../views/practice/shu.vue"), meta: { pageTitle: '学习跳转页面' } },// 学习跳转页面-zhy
+  { path: '/yuyue', name: 'yuyue', component: () => import('../views/Home/YuYue.vue'), meta: { pageTitle: '预约课程' } },// 预约课程页面-zhy,
   // { path: "hua", name: "hua", component: () => import("../views/practice/hua.vue"), meta: { pageTitle: '化学跳转页面' } },// 化学跳转页面-zhy
   // ===========================  登录相关  ======================================
   // 密码登录
@@ -197,6 +198,8 @@ const routes = [
   },
 ];
 const router = new VueRouter({
+   //去掉url中的#
+  // mode: 'history',
   routes,
 });
 // 路由导航守卫

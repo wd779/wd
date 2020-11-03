@@ -1,11 +1,8 @@
 <template>
   <div id="app">
     <div class="top" v-if="isNavBar">
-      <van-nav-bar
-        :title="title"
-        @click-left="onClickLeft"
-      >
-      <template #left>
+      <van-nav-bar :title="title" @click-left="onClickLeft">
+        <template #left>
           <van-icon name="arrow-left" v-if="isBack" size="18" />
         </template>
         <template #right>
@@ -17,7 +14,7 @@
       <router-view></router-view>
     </div>
     <div class="bottom" v-if="isTabBar">
-      <van-tabbar v-model="active"  @change="changeRoute">
+      <van-tabbar v-model="active" @change="changeRoute">
         <van-tabbar-item v-for="(item, index) in icons" :key="index">
           <span>{{ item.title }}</span>
           <template #icon="props">
@@ -35,6 +32,12 @@
 export default {
   name: "app",
   components: {},
+  // mounted(){
+  //   // console.log(window.location.href);
+  //   var res =  window.location.href.split("#")[1]
+  //   console.log(res);
+  //   this.active = res
+  // },
   data() {
     return {
       active: 0,
@@ -65,7 +68,6 @@ export default {
           active: "https://wap.365msmk.com/img/home-active.87af5fd4.png",
           inactive:
             "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTggKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MTA1MTBDRjlDMjIwMTFFOThBODNDNERFMzE4MzM4NDMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MTA1MTBDRkFDMjIwMTFFOThBODNDNERFMzE4MzM4NDMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoxMDUxMENGN0MyMjAxMUU5OEE4M0M0REUzMTgzMzg0MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoxMDUxMENGOEMyMjAxMUU5OEE4M0M0REUzMTgzMzg0MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Php7KSUAAAPhSURBVHja3JpraI1xHMf/Y17IreaWS8iUeIHkuo0Xi3bGiBcIxbBsxyUMRXhhSSkris1myKUsXpjIzrBMks1sXsjKNpc3aoWZGDaz+f47v9Xx7P8857n9n8t+9Wk7/+d5zulzfv/n97+cJ6a0tJQhBoAgSAGDWTi6mLvRB/wBH8F1cEt0UiAQEF4cC+JBORjPvBurQAlYaeRbqfC4VHesAHlGxMYy/0RQbxL6MP/F4t4qNqa3iv3ujWJPQJGeE2N9JHUPLDVSFf0QJUak/CJ2UzAwp4G7oDgUCo3zo9gFsFrRthXcoQyuATWQm+AnsUKQIZAqULQNA9VKOa+KnQWZirZMgZSqnBfFToAdAqlzUa7rlpvoRbHD4IAJqUi551zOS+PYPpBrQao7hvLMeUVsDzilaMsC+SbfL84LYjvBGUGm8q28qdtiGTRWWe1+yqhwU2wDuCoYp6xKPQPJbonxGcMNCZmqAkmBQKDLDbHlNCWyO1MvSKrT6XvsLy3rH+mYJhmNWpAIqQ6ni0c7WEhdRYZUAqTanZ4rtoL5kqRqSKrN6dn9VzCXvlVlmbcqVU3dr83pcayZMlUvkDpvhxQLb4E7uoJuoky5IiVL7D2YDRrdkpLRFRv4zQw+uylld8begHkCqS1OS9kp9pqkmgVSRTZIJRiRskusEswBLYr2zTZIVZFUh9PLFj49Sha0bxIsR8xIJdJUzHBYyVi5htRFSVKjwQKZYnwXdpGgPV2i1EC+UQPWyhLjW87LVKQuSZIaQcsS/ttYnQyxK6znljOPoESpeJprTpZ1j/FisFHl2FvQaUGKd7EkgRSvti/Z/79ixtgpls967qPzmAZywH0wBfwyOVyISnoKZXGQrKrIpbapHJsBjrDwnmA9vf5pUEqUKb4nErLSr6OJFWpIMVoV89gFTpLcdJ1yalL8fi22OmvQEitgPX/xUMaSiP/3klyjDrlKlULBs5/HbAg1Md61sqJcOxOMUrRxudwIuR8aUp2Cz8yxa0YuEjvGwnvp0SJVpT1bIfdd0P2UUpepO9sWyrniIXBc57UBjWPZVJazqaDw4eCdyj3F9xjT7F7tRortp3tET8RRidYKnvWRYD0NC00Kqf7gAXVLI2FoHNttQIrRPFHPULGOCswr8CmifThNkRJNJKOv3ozxreXTBt88VeNYLWXiId1TykeEJtFyx+xTdy16xYImvrH0iNc8E49BGf1t0Lh2FgkPsbgGlLLQTKBicJumUk9Vyrqo+5ZZXAPyMe6DLLE66k56ox84CI5aLHT8ueDtMrcGvhg8fyoVEP7kWquJz/sGrtHiVnf8E2AAJ/f4tFT+KuUAAAAASUVORK5CYII=",
-
         },
 
         {
@@ -97,24 +99,28 @@ export default {
       title = this.$route.meta.title;
       return title;
     },
-    isBack(){
+    isBack() {
       let isBack = false;
       isBack = this.$route.meta.isBack;
       return isBack;
     },
-    styleSheet(){
+    styleSheet() {
       var styleSheet = {};
-      var num = 100
+      var num = 100;
       if (this.isNavBar == true) {
-        num = num - 8
+        num = num - 8;
       }
       if (this.isTabBar == true) {
-        num = num - 8
+        num = num - 8;
       }
       return {
-        height:`${num}vh`
-      }
-    }
+        height: `${num}vh`,
+      };
+    },
+    // changeRouter(){
+    //   console.log(window.location.href);
+    //   return window.location.href
+    // }
   },
   methods: {
     onClickLeft() {
@@ -141,6 +147,28 @@ export default {
           break;
       }
     },
+    changeRouter(index) {
+      this.active = index;
+    },
+  },
+  mounted() {
+    var Scr = String(window.location.href.split("#")[1]);
+    // console.log(Scr);
+    if (Scr == "/mine") {
+      this.changeRouter(4);
+    }
+    if (Scr == "/practice") {
+      this.changeRouter(3);
+    }
+    if (Scr == "/order") {
+      this.changeRouter(2);
+    }
+    if (Scr == "/Appointment") {
+      this.changeRouter(1);
+    }
+    if (Scr == "/") {
+      this.changeRouter(0);
+    }
   },
 };
 </script>
@@ -161,13 +189,13 @@ body,
 }
 .top {
   height: 8vh;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 .center {
   overflow: scroll;
 }
 .bottom {
   height: 8vh;
-    background: #FFFFFF;
+  background: #ffffff;
 }
 </style>

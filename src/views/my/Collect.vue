@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import {GetCollect} from "../../utils/myApi"
 import appHeader from "../../components/AppHeader.vue";
 export default {
  // 组件名称
@@ -28,13 +29,19 @@ export default {
  // 侦听器
  watch: {},
  // 组件方法
- methods: {},
+ methods: {
+   async getinfo(){
+     var res = await GetCollect();
+     console.log(res);
+   }
+ },
  /**
  * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
  */
  created () {
  },
  mounted () {
+   this.getinfo();
  },
 }
 </script> 

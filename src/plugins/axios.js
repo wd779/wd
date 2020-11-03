@@ -1,4 +1,3 @@
-"use strict";
 import axios from "axios";
 import { Toast } from "vant";
 // 引入获取设备ID方法
@@ -16,7 +15,7 @@ localStorage.setItem("deviceid",deviceid)
 let config = {
   baseURL: "http://120.53.31.103:84",
   // baseURL: "https://wap.365msmk.com"
-  timeout: 10 * 1000, // Timeout
+  timeout: 5 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
 

@@ -14,10 +14,10 @@
       <!-- 模板介绍 -->
       <div class="teacher-info">
         <div class="ti-base">
-          <img src="" alt="" />
+          <img :src="info.avatar" alt="" />
           <div>
             <p>
-              <span data-v-8a020ce2="">杨德胜</span
+              <span data-v-8a020ce2="">{{ info.real_name }}</span
               ><font data-v-8a020ce2="">M20</font>
             </p>
             <p data-v-8a020ce2="">
@@ -57,20 +57,36 @@
       </div>
       <button
         class="course-btn van-button van-button--default van-button--normal"
-        style=""
+        @click="subscribe"
       >
-        <span class="van-button__text">立即预约</span>
+        <span class="van-button__text" >立即预约</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import { GetTeacherInfo } from "../../utils/myApi";
 export default {
   data() {
     return {
       activeName: "a",
+      info: {},
     };
+  },
+  mounted() {
+    console.log(this.$route.query.ID);
+    this.GetInfo();
+  },
+  methods: {
+    async GetInfo() {
+      let res = await GetTeacherInfo(this.$route.query.ID);
+      this.info = res.data.teacher;
+      // console.log(this.info);
+    },
+    subscribe(){
+      this.$router.push({path:"/yuyue"})
+    },
   },
 };
 </script>
