@@ -70,7 +70,8 @@ export default {
   height: 0.8rem;
   border-radius: 5px;
   background-color: #fff;
-  box-shadow: 3px 1px 5px #ccc;
+  /* box-shadow: 3px 1px 5px #ccc; */
+  border: 1px solid #ccc;
   display: flex;
 }
 .Renowned_teacher_content_left {

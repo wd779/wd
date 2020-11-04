@@ -33,9 +33,7 @@
 import { me } from "./utils/meiqia";
 export default {
   name: "app",
-  components: {
-
-  },
+  components: {},
   // mounted(){
   //   // console.log(window.location.href);
   //   var res =  window.location.href.split("#")[1]
@@ -185,11 +183,14 @@ body,
   height: 100%;
   list-style: none;
   font-size: 0.16rem;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
 }
 * {
   margin: 0;
   padding: 0;
+}
+*::-webkit-scrollbar {
+  display: none;
 }
 .top {
   height: 8vh;

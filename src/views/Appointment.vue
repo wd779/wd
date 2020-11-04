@@ -1,5 +1,10 @@
 <template>
   <div>
+    <van-nav-bar title="课程详情" left-arrow @click-left="onClickLeft">
+      <template #right>
+        <van-icon name="search" size="18" @click="ToSearch" />
+      </template>
+    </van-nav-bar>
     <div class="nav">
       <van-dropdown-menu>
         <van-dropdown-item title="分类" ref="item">
@@ -56,17 +61,28 @@
         </van-dropdown-item>
       </van-dropdown-menu>
     </div>
-    <div class="connect" ref="list">
-      <div v-for="item in ShowList" :key="item.id" @click="toDetails(item)">
-        <Card :data="item" />
-      </div>
+    <div class="connect">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <van-cell
+          v-for="item in ShowList"
+          :key="item.id"
+          @click="toDetails(item)"
+        >
+          <Card :data="item" />
+        </van-cell>
+      </van-list>
     </div>
   </div>
 </template>
 
 <script>
 import { GetData, GetDataList, Search } from "../utils/myApi";
-import Card from "../components/Card";
+import Card from "../components/Card copy 2";
 export default {
   // 组件名称
   name: "", // 组件参数 接收来自父组件的数据
@@ -140,25 +156,24 @@ export default {
       seartypes: "",
       searchTex: "",
       final: "",
+      ShowList: [],
+      loading:false,
+      finished: false,
     };
   }, // 计算属性
   computed: {
-    ShowList() {
-      var res = this.CourseList;
-      if (this.final !== "") {
-        // res =
-        // console.log("////");
-
-        res = this.search();
-      }
-      //   console.log(res);
-      return res;
-    },
+          
   }, // 侦听器
   watch: {}, // 组件方法
   methods: {
+    //
+    ToSearch() {
+      this.$router.push({ path: "/Search" });
+    },
+    onClickLeft() {
+      this.$router.go(-1);
+    },
     toDetails(item) {
-      //   console.log(item.id);
       this.$router.push({ name: "Details", query: { con: item } });
     },
     activeItem(name, name1) {
@@ -170,23 +185,25 @@ export default {
       } else {
         this.final = this.SearchArr[0] + this.SearchArr[1];
       }
-      // console.log(this.final);
     },
     Reset() {
       this.SearchArr = ["", ""];
     },
     suc() {
       this.$refs.item.toggle();
+      this.search()
     },
     changeActive(types) {
       this.seartypes = types;
       this.$refs.item2.toggle();
       this.final = this.seartypes;
+      this.search()
     },
     searchText(i) {
       this.searchTex = i;
       this.final = this.searchTex;
       this.$refs.item1.toggle();
+      this.search()
     },
     async getdata() {
       var a = await GetData();
@@ -194,42 +211,23 @@ export default {
     },
     async getdata1() {
       var a = await GetDataList();
-      this.$nextTick(() => {
-        this.CourseList = a.data.list;
+      a.data.list.forEach((element) => {
+        this.ShowList.push(element);
       });
     },
     async search() {
-      var a = await Search({
-        limit: 10,
-        page: 1,
-        course_type: 0,
-        keywords: this.final,
-      });
-      return a.data.list;
-      // console.log(a.data.list);
-      // this.$nextTick(() => {
-      //   this.CourseList = a.data.list;
-      // });
+      var a = await Search( this.final);
+      this.ShowList =  a.data.list;
+    },
+    onLoad() {
+      this.getdata1();
+      this.loading = false;
     },
   },
-  /**
-   * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
-   */
   created() {},
   mounted() {
     this.getdata();
     this.getdata1();
-    this.$refs.list.addEventListener("scroll", function (e) {
-      //   console.log(e.target.scrollTop);
-      //   console.log(e.target.clientHeight);
-      //   console.log(e.target.scrollHeight);
-      if (
-        e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight <
-        10
-      ) {
-        console.log("加载");
-      }
-    });
   },
 };
 </script> 
@@ -242,14 +240,13 @@ export default {
 }
 .btn_bottom {
   width: 100%;
-  height: 0.8rem;
+  height: 0.4rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
   .btn_bottom_btn {
-    height: 0.4rem;
+    height: 0.3rem;
     width: 40%;
-    border-radius: 0.4rem;
   }
 }
 P {
@@ -284,14 +281,13 @@ P {
 .nav {
   width: 100%;
   z-index: 1;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 .connect {
+  // background: #ccc;
   z-index: 0;
+  width: 100%;
   height: 76vh;
-  overflow: scroll;
-  position: fixed;
-  top: 1.1rem;
-  left: 0;
+  overflow: scroll; 
 }
 </style>

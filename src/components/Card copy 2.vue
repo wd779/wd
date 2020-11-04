@@ -4,10 +4,15 @@
       <h6>{{ datas.title }}</h6>
       <p>{{ datas.course_statement || '暂无描述' }}</p>
       <div class="user">
-        <img :src="datas.cover_img" />
+        <div>
+          <img :src="datas.cover_img" />
         <span>
           {{ datas.teachers_list[0].teacher_name }}
         </span>
+        </div>
+          <div>
+            
+          </div>
       </div>
       <p>
         {{datas.sales_num}}人已报名
@@ -47,7 +52,7 @@ export default {
   width: 98%;
   background: white;
   // box-shadow: 3px 1px 5px #ccc;
-  border: 1px solid  #ccc;
+  // border: 1px solid  #ccc;
   border-radius: 5px;
   box-sizing: border-box;
 }

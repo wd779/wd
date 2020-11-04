@@ -29,6 +29,14 @@ const routes = [
       icon: "share-o",
     },
   },
+  {
+    path: "/Search",
+    name: "Search",
+    component: () => import("../views/Appointment/Search.vue"),
+    meta: {
+      pageTitle: "搜索",
+    },
+  },
   // 教师详情,
   {
     path: "/Teacher_Details",
@@ -74,12 +82,20 @@ const routes = [
     name: "Appointment",
     component: () => import("../views/Appointment.vue"),
     meta: {
-      isNavBar: true,
+      isNavBar: false,
       isTabBar: true,
       icon: "search",
       title: "精品课程",
       pageTitle: "课程",
       isBack: false,
+    },
+  },
+  {
+    path: "/MyStudy",
+    name: "MyStudy",
+    component: () => import("../views/Appointment/Study.vue"),
+    meta: {
+      pageTitle: "我的学习",
     },
   },
   // ==========================      我的相关      =================================

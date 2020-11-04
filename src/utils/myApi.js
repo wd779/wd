@@ -52,7 +52,7 @@ export const AjaxPass = data => post('/api/app/password',data) // 修改密码
 export const GetData = data => get('api/app/courseClassify',data) // 课程信息
 export const GetDataList = data => get('api/app/courseBasis',data) // 课程列表
 export const GetCurriculum = data => get('api/app/courseInfo/basis_id='+data) // 课程详情
-export const Search = data => get('api/app/courseBasis',data) // 搜索课程
+export const Search = data => get('api/app/courseBasis?limit=10&page=1&course_type=0&keywords='+data) // 搜索课程
 export const Collect = data => post('/api/app/collect',data) // 收藏课程
 export const CancelCollect = data => put('api/app/collect/cancel/'+data+'/1') // 取消收藏课程
 // 首页
@@ -63,11 +63,13 @@ export const collectTeacher = data => get('api/app/teacher/collect/'+data) //关
 export const cancelCollectTeacher = collect_id => get(`api/app/teacher/collect/${collect_id}`); // 取消关注
 export const collectTeacherList = data => get("/api/app/collect", data); // 关注列表
 export const cancelCollect = collect_id => put(`api/app/collect/cancel/${collect_id}/2`); // 取消关注
+export const SignUp = data => post(`api/app/order/downOrder`,data); // 报名课程
+
 // 我的
 export const AjaxInfo = data => get("/api/app/userInfo", data); // 获取用户信息
 export const AjaxEdit = data => axios.put('/api/app/user',data) // 修改用户信息
 export const GetCollect = data => get('api/app/collect?page=1&limit=10&type=1',data) // 所有我的收藏数据
-// api/app/collect?page=2&limit=10&type=1//
+// api/app/order/downOrder
 // 约课
 
 // 练习

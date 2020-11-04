@@ -59,7 +59,17 @@
       </div>
     </div>
     <div class="btn">
-      <van-button type="default" class="btn_n">立即学习</van-button>
+      <van-button
+        type="default"
+        v-if="isbuy == 0"
+        class="btn_n"
+        @click="onsignUp"
+        >立即报名</van-button
+      >
+      <van-button type="default" v-if="isbuy == 1" class="btn_n"
+      @click="ToStudy"
+        >立即学习</van-button
+      >
     </div>
     <!-- 二维码 -->
     <van-overlay :show="show" @click="show = false">
@@ -76,7 +86,12 @@
 </template>
 
 <script>
-import { GetCurriculum, Collect, CancelCollect } from "../../utils/myApi";
+import {
+  GetCurriculum,
+  Collect,
+  CancelCollect,
+  SignUp
+} from "../../utils/myApi";
 import QRCode from "qrcode";
 export default {
   // 组件名称
@@ -95,21 +110,42 @@ export default {
     isshow() {
       return this.data.is_collect;
     },
+    isbuy() {
+      return this.data.is_join_study;
+    },
   }, // 侦听器
   watch: {}, // 组件方法
   methods: {
+    async onsignUp() {
+      console.log(this.$route.query.con.id);
+      let res = await SignUp({
+        shop_id: this.$route.query.con.id,
+        type:5
+      });
+      if (res.code == 200) {
+        this.$toast('报名成功');
+        this.$router.push({path:"/MyStudy"})
+      }else if (res.code == 201){
+        // console.log(res.msg);
+        this.$toast(res.msg);
+      }
+      // console.log(res);
+    },
+    ToStudy(){
+      this.$router.push({path:"/MyStudy"})
+    },
     share() {
       console.log("分享");
-        this.show = true;
+      this.show = true;
       let url = location.href;
-      console.log(url);
+      // console.log(url);
       QRCode.toDataURL(url)
-      //在这里拿到地址，把它赋值给data里面定义的值imrUrl
-        .then(tpian => {
-          console.log(tpian);
+        //在这里拿到地址，把它赋值给data里面定义的值imrUrl
+        .then((tpian) => {
+          // console.log(tpian);
           this.imrUrl = tpian;
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     },
@@ -121,7 +157,7 @@ export default {
         // console.log(a.data.info.collect_id);
         this.id = a.data.info.collect_id;
       }
-      // console.log(this.data);
+      console.log(this.data);
     },
 
     onClickLeft() {
@@ -185,7 +221,7 @@ export default {
   height: 84vh;
   overflow: scroll;
 }
-.block{
+.block {
   width: 2rem;
   height: 2.2rem;
   background: white;
@@ -194,7 +230,6 @@ export default {
   position: fixed;
   top: 2rem;
   left: 0.95rem;
-  
 }
 .top_right {
   font-size: 0.24rem;
@@ -276,4 +311,5 @@ export default {
 .connect {
   padding: 0.2rem 0;
 }
+
 </style>
