@@ -56,7 +56,7 @@ export default {
   h6 {
     font-size: 0.1rem;
     font-weight: normal;
-    height: 0.4rem;
+    height: 0.6rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
